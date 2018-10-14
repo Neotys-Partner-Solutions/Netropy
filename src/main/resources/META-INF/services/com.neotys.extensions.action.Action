@@ -1,0 +1,7 @@
+com.neotys.apposite.SetDelayAction
+com.neotys.apposite.MonitoringAction
+com.neotys.apposite.NetropyDisconnectAction
+com.neotys.apposite.NetropyConnectAction
+com.neotys.apposite.SetBandwidthAction
+com.neotys.apposite.SetLossAction
+com.neotys.apposite.SetNetworkOutageAction
