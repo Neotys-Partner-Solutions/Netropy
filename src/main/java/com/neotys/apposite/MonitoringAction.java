@@ -16,8 +16,7 @@ import java.util.ResourceBundle;
 public class MonitoringAction implements Action {
     public static final String Netropy_HOSTNAME = "Netropy_HOSTNAME";
     public static final String Netropy_ENGINE_IDX = "Netropy_ENGINE_IDX";
-    public static final String NeoLoadAPIHost="NeoLoadAPIHost";
-    public static final String NeoLoadAPIport="NeoLoadAPIport";
+    public static final String NeoLoadDataExchangeAPIURL="NeoLoadDataExchangeAPIURL";
     public static final String NeoLoadKeyAPI="NeoLoadKeyAPI";
     private static final String BUNDLE_NAME = "com.neotys.apposite.bundle";
     private static final String DISPLAY_NAME = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault()).getString("displayName");
@@ -35,12 +34,7 @@ public class MonitoringAction implements Action {
         final List<ActionParameter> parameters = new ArrayList<ActionParameter>();
         parameters.add(new ActionParameter(Netropy_HOSTNAME,"localhost"));
         parameters.add(new ActionParameter(Netropy_ENGINE_IDX,"1"));
-        parameters.add(new ActionParameter(NeoLoadAPIHost,"localhost"));
-        parameters.add(new ActionParameter(NeoLoadAPIport,"7400"));
-
-
-
-        // TODO Add default parameters.
+        parameters.add(new ActionParameter(NeoLoadDataExchangeAPIURL,"http://localhost:7400/"));
         return parameters;
     }
     static {
@@ -77,8 +71,7 @@ public class MonitoringAction implements Action {
         description.append("Netropy_SetBandwidth requires the following parameters\n");
         description.append("\tNetropy_HOSTNAME : Ip of hostname of the netropy appliance\n");
         description.append("\tNetropy_ENGINE_IDX : Engine id of the appliance\n");
-        description.append("\tNeoLoadAPIHost : Ip of hostname of the NeoLoad DataExchange API\n");
-        description.append("\tNeoLoadAPIport : port of the DataExchangeAPi ( default 7400) \n");
+        description.append("\tNeoLoadDataExchangeAPIURL : Url of the NeoLoad DataExchangeAPI\n");
         description.append("\t(Optional) NeoLoadKeyAPI : NeoLoad's APi Key\n");
 
         return description.toString();

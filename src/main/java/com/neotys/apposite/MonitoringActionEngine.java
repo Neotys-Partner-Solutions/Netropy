@@ -2,8 +2,10 @@ package com.neotys.apposite;
 
 import com.apposite.api.Netropy;
 import com.google.common.base.Strings;
+import com.neotys.apposite.NLAPIClient.NLClient;
 import com.neotys.apposite.Util.NetropySession;
 import com.neotys.apposite.Util.Validator;
+import com.neotys.apposite.codec.NetroyMonitoringReader;
 import com.neotys.extensions.action.ActionParameter;
 import com.neotys.extensions.action.engine.ActionEngine;
 import com.neotys.extensions.action.engine.Context;
@@ -14,8 +16,7 @@ import java.util.List;
 public class MonitoringActionEngine implements ActionEngine {
     private String netropy_HOSTNAME;
     private String netropy_ENGINE_IDX;
-    private String neoLoadAPIHost;
-    private String neoLoadAPIport;
+    private String neoLoadAPIUrl;
     private String neoLoadKeyAPI;
 
     private NetropySession netropy;
@@ -33,33 +34,21 @@ public class MonitoringActionEngine implements ActionEngine {
                 case MonitoringAction.Netropy_ENGINE_IDX:
                     netropy_ENGINE_IDX = parameter.getValue();
                     break;
-                case MonitoringAction.NeoLoadAPIHost:
-                    neoLoadAPIHost = parameter.getValue();
+                case MonitoringAction.NeoLoadDataExchangeAPIURL:
+                    neoLoadAPIUrl = parameter.getValue();
                     break;
-                case MonitoringAction.NeoLoadAPIport:
-                    neoLoadAPIport = parameter.getValue();
-                    break;
+
                 case MonitoringAction.NeoLoadKeyAPI:
                     neoLoadKeyAPI = parameter.getValue();
                     break;
             }
         }
 
-        if (Strings.isNullOrEmpty(neoLoadAPIHost)) {
-            return getErrorResult(context, sampleResult, "Invalid argument: NeoLoadAPIHost cannot be null "
-                    + MonitoringAction.NeoLoadAPIHost + ".", null);
+        if (Strings.isNullOrEmpty(neoLoadAPIUrl)) {
+            return getErrorResult(context, sampleResult, "Invalid argument: NeoLoadDataExchangeAPIURL cannot be null "
+                    + MonitoringAction.NeoLoadDataExchangeAPIURL + ".", null);
         }
-        if (Strings.isNullOrEmpty(neoLoadAPIport)) {
-            return getErrorResult(context, sampleResult, "Invalid argument: NeoLoadAPIport cannot be null "
-                    + MonitoringAction.NeoLoadAPIport + ".", null);
-        }
-        else
-        {
-            if(!Validator.isaDigit(neoLoadAPIport))
-                return getErrorResult(context, sampleResult, "Invalid argument: NeoLoadAPIport needs to be a digit "
-                        + MonitoringAction.NeoLoadAPIport + ".", null);
 
-        }
         if (Strings.isNullOrEmpty(netropy_HOSTNAME)) {
             return getErrorResult(context, sampleResult, "Invalid argument: Netropy_HOSTNAME cannot be null "
                     + MonitoringAction.Netropy_HOSTNAME + ".", null);
@@ -74,7 +63,7 @@ public class MonitoringActionEngine implements ActionEngine {
             netropy=(NetropySession)context.getCurrentVirtualUser().get(Validator.netropyObjectname+netropy_HOSTNAME);
             if(netropy!=null)
             {
-
+                netropy.monitorNetropy(neoLoadAPIUrl,neoLoadKeyAPI,netropy_ENGINE_IDX);
             }
             else
             {
